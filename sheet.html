@@ -1,3 +1,37 @@
+<script type="text/worker">
+
+// Calculate total fatigue from travel fatigue and encumbrance fatigue.
+
+on("change:travel_fatigue change:encumbrance_fatigue", function() {
+   getAttrs(["travel_fatigue", "encumbrance_fatigue"], function(values) {
+      setAttrs({
+          total_fatigue: Math.floor(parseInt(values.travel_fatigue) + parseInt(values.encumbrance_fatigue))
+      });
+   });
+});
+
+// Calculate encumbrance fatigue from gear and weapon encumbrance.
+
+on("change:gear_encumbrance_1 change:gear_encumbrance_2 change:gear_encumbrance_3 change:gear_encumbrance_4 change:gear_encumbrance_5 change:gear_encumbrance_6 change:gear_encumbrance_7 change:gear_encumbrance_8 change:weapon_encumbrance_1 change:weapon_encumbrance_2 change:weapon_encumbrance_3 change:weapon_encumbrance_4", function() {
+   getAttrs(["gear_encumbrance_1", "gear_encumbrance_2", "gear_encumbrance_3", "gear_encumbrance_4", "gear_encumbrance_5", "gear_encumbrance_6", "gear_encumbrance_7", "gear_encumbrance_8", "weapon_encumbrance_1", "weapon_encumbrance_2", "weapon_encumbrance_3", "weapon_encumbrance_4"], function(values) {
+      setAttrs({
+          encumbrance_fatigue: Math.floor(parseInt(values.gear_encumbrance_1) + parseInt(values.gear_encumbrance_2) + parseInt(values.gear_encumbrance_3) + parseInt(values.gear_encumbrance_4) + parseInt(values.gear_encumbrance_5) + parseInt(values.gear_encumbrance_6) + parseInt(values.gear_encumbrance_7) + parseInt(values.gear_encumbrance_8) + parseInt(values.weapon_encumbrance_1) + parseInt(values.weapon_encumbrance_2) + parseInt(values.weapon_encumbrance_3) + parseInt(values.weapon_encumbrance_4))
+      });
+   });
+});
+
+// Calculate total shadow from temporary and permanent shadow.
+
+on("change:permanent_shadow change:temporary_shadow", function() {
+   getAttrs(["permanent_shadow", "temporary_shadow"], function(values) {
+      setAttrs({
+          total_shadow: Math.floor(parseInt(values.permanent_shadow) + parseInt(values.temporary_shadow))
+      });
+   });
+});
+
+</script>
+
 <input type="radio" class="isPC" value="1" name="attr_pc" checked><label>Player Character</label>
 <input type="radio" class="isNPC" value="0" name="attr_pc"><label>LM Character</label>
 <input type="radio" class="isAdversary" value="3" name="attr_pc" checked><label>Adversary</label>
@@ -1138,17 +1172,17 @@
 
                     <tr>
                         <td><label>Total Fatigue</label></td>
-                        <td colspan="2"><input type="number" name="attr_total_fatigue" value="@{encumbrance_fatigue}+@{travel_fatigue}" disabled="true"></td>
+                        <td colspan="2"><input type="number" name="attr_total_fatigue" value="0"></td>
                     </tr>
 
                     <tr>
                         <td><label>Enc. Fatigue</label></td>
-                        <td colspan="2"><input type="number" name="attr_encumbrance_fatigue" disabled="disabled" value="@{gear_encumbrance_1} + @{gear_encumbrance_2} + @{gear_encumbrance_3} + @{gear_encumbrance_4} + @{gear_encumbrance_5} + @{gear_encumbrance_6} + @{gear_encumbrance_7} + @{gear_encumbrance_8} + @{weapon_encumbrance_1} + @{weapon_encumbrance_2} + @{weapon_encumbrance_3} + @{weapon_encumbrance_4}"></td>
+                        <td colspan="2"><input type="number" name="attr_encumbrance_fatigue" value="0"></td>
                     </tr>
 
                     <tr>
                         <td><label>Travel Fatigue</label></td>
-                        <td colspan="2"><input type="number" name="attr_travel_fatigue" value="1"></td>
+                        <td colspan="2"><input type="number" name="attr_travel_fatigue" value="0"></td>
                     </tr>
                 </table>
             </div>
@@ -1163,7 +1197,7 @@
 
                     <tr>
                         <td><label>Total Shadow</label></td>
-                        <td colspan="2"><input type="number" name="attr_total_shadow" value="@{permanent_shadow}+@{temporary_shadow}" disabled="true"></td>
+                        <td colspan="2"><input type="number" name="attr_total_shadow" value="0"></td>
                     </tr>
 
                     <tr>
